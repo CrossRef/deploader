@@ -38,7 +38,7 @@ new File(inDir).eachFile {
     //it.renameTo(outDir + "/" + it.getName())
 }
 
-def elapsedSeconds = (System.currentTimeMillis() - startTime) / 60
+def elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000
 
 println "Took " + elapsedSeconds + " seconds."
 println "At " + (133606 / elapsedSeconds) + " DOIs per second."
