@@ -8,8 +8,9 @@ import org.xml.sax.helpers.DefaultHandler
 import org.xml.sax.*
 
 def sql = Sql.newInstance("jdbc:mysql://localhost/deploader", "root", "root")
-def inDir = "/Users/karl/Proj/deploader/in"
-def outDir = "/Users/karl/Proj/deploader/out"
+def inDir = "../in"
+def outDir = "../out"
+def workingDir = "../working"
 
 def writeXml(doc) {
     def source = new DOMSource(doc)
@@ -23,6 +24,10 @@ def writeXml(doc) {
 def startTime = System.currentTimeMillis()
 
 new File(inDir).eachFile {
+    // Move the file to the 'working' directory.
+    it.renameTo(workingDir + "/" + it.getName())
+    it = new File(workingDir + "/" + it.getName())
+    
     // Do an insert for each deposit in the XML.
     def splitter = new DepositSplitter()
     splitter.parseFile(it)
@@ -35,7 +40,7 @@ new File(inDir).eachFile {
     }
     
     // Move file into the 'out' directory.
-    //it.renameTo(outDir + "/" + it.getName())
+    it.renameTo(outDir + "/" + it.getName())
 }
 
 def elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000
