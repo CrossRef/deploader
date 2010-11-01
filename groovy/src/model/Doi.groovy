@@ -1,6 +1,10 @@
 package model
 
 class Doi {
+    static hasMany = [authors:Author, urls:Url, publishers:Publisher]
+    
+    Publication publication
+    
     String xml
     String articleTitle
     String owner
