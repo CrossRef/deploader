@@ -2,6 +2,7 @@ package model
 
 class Doi {
     static hasMany = [authors:Author, urls:Url, publishers:Publisher]
+    static belongsTo = Publication
     
     Publication publication
     

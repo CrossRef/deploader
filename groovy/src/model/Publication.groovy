@@ -6,5 +6,5 @@ class Publication {
     String title
     String pIssn
     String eIssn
-    String publicationType
+    String type
 }

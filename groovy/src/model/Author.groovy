@@ -1,6 +1,8 @@
 package model
 
 class Author {
+    static belongsTo = Doi
+    
     Doi doi
     
     String surname

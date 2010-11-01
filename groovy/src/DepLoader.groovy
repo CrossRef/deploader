@@ -21,62 +21,16 @@ def writeXml(doc) {
     return bout.toByteArray()
 }
 
-def writeDoi(root) {
-    def doi = root.publication.doi_record.doi.text()
-    def articleTitle = root.publication.doi_record.article_title.text()
-    def owner = root.publication.doi_record.'@owner'
-    def citeId = root.publication.doi_record.'@citationid'
-    def dateStamp = root.publication.doi_record.'@datestamp'
-    def fileDate = root.publication.'@filedate'
-    def volume = root.publication.doi_record.volume.text()
-    def issue = root.publication.doi_record.issue.text()
-    def year = root.publication.doi_record.publication_date.year.text()
-    def month = root.publication.doi_record.publication_date.month.text()
-    def day = root.publication.doi_record.publication_date.day.text()
-    def firstPage = root.publication.doi_record.first_page.text()
-    def lastPage = root.publication.doi_record.last_page.text()
-}
-
-def writeAuthor(doiId, root) {
-    root.publication.doi_record.contributors.collect {
-        def surname = it.surname.text()
-        def givenName = it.given_name.text()
-        def sequence = it.'@sequence'
-        def role = it.'@contributor_role'
-    }
-}
-
-def writeUrl(doiId, root) {
-    root.publication.doi_record.url.collect {
-        def uri = it.text()
-        def host = "" // Split uri
-    }
-}
-
-def associatePublisher(doiId, root) {
-    root.publication.publisher.collect {
-        def name = it.publisher_name.text()
-        def location = it.publisher_localtion.text()
-    }
-}
-
-def associatePublication(doiId, root) {
-    def title = root.publication.'@title'
-    def pIssn = root.publication.'@pissn'
-    def eIssn = root.publication.'@eissn'
-    def publicationType = root.publication.'@pubType'
-}
-
 def startTime = System.currentTimeMillis()
 
-new File(inDir).eachFile {
+new File(inDir).eachFile { dumpFile ->
     // Move the file to the 'working' directory.
-    it.renameTo(workingDir + "/" + it.getName())
-    it = new File(workingDir + "/" + it.getName())
+    dumpFile.renameTo(workingDir + "/" + dumpFile.getName())
+    dumpFile = new File(workingDir + "/" + dumpFile.getName())
     
     // Do an insert for each deposit in the XML.
     def splitter = new DepositSplitter()
-    splitter.parseFile(it)
+    splitter.parseFile(dumpFile)
     
     splitter.each { doc ->
         def bytes = writeXml(doc)
@@ -85,15 +39,11 @@ new File(inDir).eachFile {
         //sql.execute("INSERT INTO deposits (doi, xml) VALUES (${doi}, ${bytes})")
         
         def root = new XmlParser().parse(new ByteArrayInputStream(bytes))
-        def doiId = writeDoi(root)
-        writeAuthor(doiId, root)
-        writeUrl(doiId, root)
-        associatePublisher(doiId, root)
-        associatePublication(doiId, root)
+        new Transmogrifier().transmogrify(root, dumpFile)
     }
     
     // Move file into the 'out' directory.
-    it.renameTo(outDir + "/" + it.getName())
+    dumpFile.renameTo(outDir + "/" + dumpFile.getName())
 }
 
 def elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000
