@@ -20,6 +20,8 @@ def writeXml(doc) {
     return bout.toByteArray()
 }
 
+def startTime = System.currentTimeMillis()
+
 new File(inDir).eachFile {
     // Do an insert for each deposit in the XML.
     def splitter = new DepositSplitter()
@@ -36,5 +38,7 @@ new File(inDir).eachFile {
     //it.renameTo(outDir + "/" + it.getName())
 }
 
+def elapsedSeconds = (System.currentTimeMillis() - startTime) / 60
 
-
+println "Took " + elapsedSeconds + " seconds."
+println "At " + (133606 / elapsedSeconds) + " DOIs per second."
