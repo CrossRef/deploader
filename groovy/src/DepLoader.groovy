@@ -7,7 +7,6 @@ import javax.xml.parsers.SAXParserFactory
 import org.xml.sax.helpers.DefaultHandler
 import org.xml.sax.*
 
-def sql = Sql.newInstance("jdbc:mysql://localhost/deploader", "root", "root")
 def inDir = "../in"
 def outDir = "../out"
 def workingDir = "../working"
@@ -20,6 +19,8 @@ def writeXml(doc) {
     xformer.transform(source, result)
     return bout.toByteArray()
 }
+
+def trans = new Transmogrifier()
 
 def startTime = System.currentTimeMillis()
 
@@ -34,12 +35,8 @@ new File(inDir).eachFile { dumpFile ->
     
     splitter.each { doc ->
         def bytes = writeXml(doc)
-        
-        //def doi = doc.getElementsByTagName("doi").item(0).getFirstChild().getData()
-        //sql.execute("INSERT INTO deposits (doi, xml) VALUES (${doi}, ${bytes})")
-        
         def root = new XmlParser().parse(new ByteArrayInputStream(bytes))
-        new Transmogrifier().transmogrify(root, dumpFile)
+        trans.transmogrify(root, dumpFile)
     }
     
     // Move file into the 'out' directory.
