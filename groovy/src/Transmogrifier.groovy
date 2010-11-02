@@ -1,3 +1,4 @@
+import groovy.sql.Sql;
 import model.Author;
 import model.Doi;
 import model.Publication;
@@ -30,7 +31,7 @@ class Transmogrifier {
         
         sql.execute '''
             CREATE TABLE dois (
-                id int(10) unsgined not null auto_increment,
+                id int(10) unsigned not null auto_increment,
                 xml text,
                 doi varchar(255) default null,
                 articleTitle text,
@@ -77,13 +78,12 @@ class Transmogrifier {
             DEFAULT CHARSET = utf8;
         '''
         
-        sql.excute '''
+        sql.execute '''
             CREATE TABLE publishers (
                 id int(10) unsigned not null auto_increment,
                 name varchar(255) default null,
                 location varchar(255) default null,
                 primary key (id),
-                unique key unique_publishers_name (name),
                 key index_publishers_name (name))
             DEFAULT CHARSET = utf8;
         '''
@@ -106,64 +106,75 @@ class Transmogrifier {
     }
     
     def transmogrify(root, dumpFile) {
-        publications.add(
-            title: root.publication.'@title',
-            pIssn: root.publication.'@pissn',
-            eIssn: root.publication.'@eissn',
-            type: root.publication.'@pubType'
-        )
         
-        dois.add(
-            doi: root.publication.doi_record.doi.text(),
-            articleTitle: root.publication.doi_record.article_title.text(),
-            owner: root.publication.doi_record.'@owner',
-            citationId: root.publication.doi_record.'@citationid',
-            dateStamp: root.publication.doi_record.'@datestamp',
-            fileDate: root.publication.'@filedate',
-            volume: root.publication.doi_record.volume.text(),
-            issue: root.publication.doi_record.issue.text(),
-            year: root.publication.doi_record.publication_date.year.text(),
-            month: root.publication.doi_record.publication_date.month.text(),
-            day: root.publication.doi_record.publication_date.day.text(),
-            firstPage: root.publication.doi_record.first_page.text(),
-            lastPage: root.publication.doi_record.last_page.text(),
-            dumpFilename: dumpFile.getName(),
-            publicationId: 0 // get publication id
-        )
-        
-        root.publication.doi_record.url.collect {
-            urls.add(
-                uri: it.text(),
-                host: it.text(), // split uri
-                doiId: 0 // get doi id
-            )
-        }
-        
-        root.publication.doi_record.contributors.collect {
-            authors.add(
-                surname: it.surname.text(),
-                givenName: it.given_name.text(),
-                sequence: it.'@sequence',
-                contributorRole: it.'@contributor_role',
-                doiId: 0 //get doi id
-            )
-        }
-        
-        root.publication.publisher.collect {
-            publishers.add(
-                name: it.publisher_name.text(),
-                location: it.publisher_location.text()
+        sql.withTransaction {
+            def publicationId = sql.firstRow("SELECT COUNT(id) as c FROM publications").c + 1
+            def doiId = sql.firstRow("SELECT COUNT(id) as c FROM dois").c + 1
+            
+            publications.add (
+                title: root.'@title',
+                pIssn: root.'@pissn',
+                eIssn: root.'@eissn',
+                type: root.'@pubType',
+                id: publicationId
             )
             
-            publishersDois.add(
-                doiId: 0, // get doi id
-                publisherId: 0 // get publisher id
+            dois.add(
+                doi: root.doi_record.doi.text(),
+                articleTitle: root.doi_record.article_title.text(),
+                owner: root.doi_record[0].'@owner',
+                citationId: root.doi_record[0].'@citationid',
+                dateStamp: root.doi_record[0].'@datestamp',
+                fileDate: root.'@filedate',
+                volume: root.doi_record.volume.text(),
+                issue: root.doi_record.issue.text(),
+                year: root.doi_record.publication_date.year.text(),
+                month: root.doi_record.publication_date.month.text(),
+                day: root.doi_record.publication_date.day.text(),
+                firstPage: root.doi_record.first_page.text(),
+                lastPage: root.doi_record.last_page.text(),
+                dumpFilename: dumpFile.getName(),
+                publicationId: publicationId,
+                id: doiId
             )
             
-            publishersPublications.add(
-                publicationId: 0, // get publication id
-                publisherId: 0 // get publisher id
-            )
+            root.doi_record.url.collect {
+                urls.add(
+                    uri: it.text(),
+                    host: "", // split uri
+                    doiId: doiId
+                )
+            }
+            
+            root.doi_record.contributors.collect {
+                authors.add(
+                    surname: it.surname.text(),
+                    givenName: it.given_name.text(),
+                    sequence: it.'@sequence',
+                    contributorRole: it.'@contributor_role',
+                    doiId: doiId
+                )
+            }
+            
+            root.publisher.collect {
+                def publisherId = sql.firstRow("SELECT COUNT(id) as c FROM publishers").c + 1
+                
+                publishers.add(
+                    name: it.publisher_name.text(),
+                    location: it.publisher_location.text(),
+                    id: publisherId
+                )
+                
+                publishersDois.add(
+                    doiId: doiId,
+                    publisherId: publisherId
+                )
+                
+                publishersPublications.add(
+                    publicationId: publicationId,
+                    publisherId: publisherId
+                )
+            }
         }
     }
     

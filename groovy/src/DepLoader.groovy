@@ -2,7 +2,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import groovy.sql.Sql
 import javax.xml.parsers.SAXParserFactory
 import org.xml.sax.helpers.DefaultHandler
 import org.xml.sax.*
@@ -21,6 +20,7 @@ def writeXml(doc) {
 }
 
 def trans = new Transmogrifier()
+trans.setupTables()
 
 def startTime = System.currentTimeMillis()
 
