@@ -36,7 +36,7 @@ new File(inDir).eachFile { dumpFile ->
     splitter.each { doc ->
         def bytes = writeXml(doc)
         def root = new XmlParser().parse(new ByteArrayInputStream(bytes))
-        trans.transmogrify(root, dumpFile)
+        trans.transmogrify(root, dumpFile, new String(bytes))
     }
     
     // Move file into the 'out' directory.

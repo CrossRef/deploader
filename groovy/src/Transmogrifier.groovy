@@ -25,7 +25,9 @@ class Transmogrifier {
                 pIssn varchar(50) default null,
                 eIssn varchar(50) default null,
                 type varchar(50) default null,
-                primary key (id))
+                primary key (id),
+                unique key unique_publications_title (title),
+                key index_publications_title (title))
             DEFAULT CHARSET = utf8;
         '''
         
@@ -84,6 +86,7 @@ class Transmogrifier {
                 name varchar(255) default null,
                 location varchar(255) default null,
                 primary key (id),
+                unique key unique_publishers_name (name),
                 key index_publishers_name (name))
             DEFAULT CHARSET = utf8;
         '''
@@ -105,19 +108,29 @@ class Transmogrifier {
         '''
     }
     
-    def transmogrify(root, dumpFile) {
+    def transmogrify(root, dumpFile, xml) {
         
         sql.withTransaction {
-            def publicationId = sql.firstRow("SELECT COUNT(id) as c FROM publications").c + 1
-            def doiId = sql.firstRow("SELECT COUNT(id) as c FROM dois").c + 1
+            def publicationId = null
+            def publicationTitle = root.'@title'
             
-            publications.add (
-                title: root.'@title',
-                pIssn: root.'@pissn',
-                eIssn: root.'@eissn',
-                type: root.'@pubType',
-                id: publicationId
-            )
+            sql.eachRow("SELECT * FROM publications WHERE title = $publicationTitle") {
+                publicationId = it.id
+            }
+            
+            if (publicationId == null) {
+                publicationId = sql.firstRow("SELECT COUNT(id) as c FROM publications").c + 1
+            
+                publications.add (
+                    title: root.'@title',
+                    pIssn: root.'@pissn',
+                    eIssn: root.'@eissn',
+                    type: root.'@pubType',
+                    id: publicationId
+                )
+            }
+            
+            def doiId = sql.firstRow("SELECT COUNT(id) as c FROM dois").c + 1
             
             dois.add(
                 doi: root.doi_record.doi.text(),
@@ -134,6 +147,7 @@ class Transmogrifier {
                 firstPage: root.doi_record.first_page.text(),
                 lastPage: root.doi_record.last_page.text(),
                 dumpFilename: dumpFile.getName(),
+                xml: xml,
                 publicationId: publicationId,
                 id: doiId
             )
@@ -157,23 +171,41 @@ class Transmogrifier {
             }
             
             root.publisher.collect {
-                def publisherId = sql.firstRow("SELECT COUNT(id) as c FROM publishers").c + 1
+                def publisherId = null
+                String publisherName = it.publisher_name.text()
                 
-                publishers.add(
-                    name: it.publisher_name.text(),
-                    location: it.publisher_location.text(),
-                    id: publisherId
-                )
+                sql.eachRow("SELECT * FROM publishers WHERE name = $publisherName") {
+                    publisherId = it.id
+                }
+                
+                if (publisherId == null) {
+                    publisherId = sql.firstRow("SELECT COUNT(id) as c FROM publishers").c + 1
+                
+                    publishers.add(
+                        name: publisherName,
+                        location: it.publisher_location.text(),
+                        id: publisherId
+                    )
+                }
                 
                 publishersDois.add(
                     doiId: doiId,
                     publisherId: publisherId
                 )
                 
-                publishersPublications.add(
-                    publicationId: publicationId,
-                    publisherId: publisherId
-                )
+                def hasPubPubRow = false
+                
+                sql.eachRow("SELECT * FROM publishersPublications WHERE"
+                    + " publicationId = $publicationId AND publisherId = $publisherId") {
+                    hasPubPubRow = true
+                }
+                
+                if (!hasPubPubRow) {
+                    publishersPublications.add(
+                        publicationId: publicationId,
+                        publisherId: publisherId
+                    )
+                }
             }
         }
     }
