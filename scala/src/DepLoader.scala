@@ -1,9 +1,15 @@
 import scala.xml._
+import ru.circumflex.orm._
 
 object DepLoader extends Application {
     
+    val splitDepositXml = None
+    
+    var partialXml = None
+    
     val depositXml = 
-        <publication eissn="1550235X" filedate="3-APR-2009" mode="full" pissn="10980121" pubType="journal" title="Physical Review B">
+        <publication eissn="1550235X" filedate="3-APR-2009" mode="full" 
+                     pissn="10980121" pubType="journal" title="Physical Review B">
             <publisher>
                 <publisher_name>American Physical Society (APS)</publisher_name>
                 <publisher_result_name>American Physical Society (APS)</publisher_result_name>
@@ -71,5 +77,57 @@ object DepLoader extends Application {
         val sequence = author\"@sequence"
     }
     
+    println(doi)
+}
 
+class Publication extends Record[Publication] {
+    val eIssn = "eIssn" VARCHAR NULLABLE
+    val pIssn = "pIssn" VARCHAR NULLABLE
+    val title = "name" VARCHAR NOT_NULL
+    val publicationType = "publicationType" VARCHAR NULLABLE
+}
+
+object Publication extends Table[Publication] {
+    UNIQUE(title)
+    INDEX(title)
+}
+
+class Doi extends Record[Doi] {
+    val id = field(Doi.id)
+    val doi = "doi" VARCHAR(255) NOT_NULL
+    val citationId = "citationId" VARCHAR NULLABLE
+    val dateStamp = "dateStamp" VARCHAR NULLABLE
+    val owner = "owner" VARCHAR NULLABLE
+    val volume = "volume" VARCHAR NULLABLE
+    val issue = "issue" VARCHAR NULLABLE
+    val firstPage = "firstPage" VARCHAR NULLABLE
+    val lastPage = "lastPage" VARCHAR NULLABLE
+    val day = "day" VARCHAR NULLABLE
+    val month = "month" VARCHAR NULLABLE
+    val year = "year" VARCHAR NULLABLE
+    val title = "title" TEXT NULLABLE
+    val fileDate = "fileDate" VARCHAR NULLABLE
+    val xml = "xml" TEXT NOT_NULL
+}
+
+class Author extends Record[Author] {
+    val givenName = "givenName" VARCHAR NULLABLE
+    val surname = "surname" VARCHAR NULLABLE
+    val contributorRole = "contributorRole" VARCHAR NULLABLE
+    val sequence = "sequence" VARCHAR NULLABLE
+}
+
+class Uri extends Record[Uri] {
+    val url = "url" TEXT NOT_NULL
+    val uriType = "uriType" VARCHAR NULLABLE
+}
+
+class Publisher extends Record[Publisher] {
+    val name = "name" VARCHAR NOT_NULL
+    val location = "location" TEXT NULLABLE
+}
+
+object Publisher extends Table[Publisher] {
+    UNIQUE(name)
+    INDEX(name)
 }
