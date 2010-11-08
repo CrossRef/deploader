@@ -1,66 +1,75 @@
 import scala.xml._
 import ru.circumflex.orm._
+import java.io.File
 
 object DepLoader extends Application {
     
-    val publication = new Publication()
-    publication.title := depositXml\"@title"
-    publication.publicationType := depositXml\"@pubType"
-    publication.pIssn := depositXml\"@pissn"
-    publication.eIssn := depositXml\"@eissn"
-    publication.save()
+    def inDirectory = "../in"
+    def outDirectory = "../out"
+    def workingDirectory = "../working"
         
-    for (publisher <- depositXml\\"publisher") {
-        val publisher = new Publisher()
-        publisher.name := publisher\"publisher_name" text
-        publisher.location := publisher\"publisher_location" text
-        publisher.save()
+    for (depositFile <- new File(inDirectory).listFiles) {
+        var depositXml = XML.loadFile(depositFile)
         
-        val publicationsPublisher = new PublicationsPublisher()
-        publicationsPublisher.publisher := publisher
-        publicationsPublisher.publication := publication
-        publicationsPublisher.save()
-    }
-    
-    for (doiElement <- depositXml\\"doi_record") {
-        val doi = new Doi()
-        doi.doi := doiElement\"doi" text
-        doi.citationid := doiElement\"doi" text
-        doi.dateStamp := doiElement\"@datestamp"
-        doi.owner := doiElement\"@owner"
-        doi.volume := doiElement\"volume" text
-        doi.issue := doiElement\"issue" text
-        doi.firstPage := doiElement\"first_page" text
-        doi.lastPage := doiElement\"last_page" text
-        doi.day := doiElement\"publication_date"\"day" text
-        doi.month := doiElement\"publication_date"\"month" text
-        doi.year := doiElement\"publication_date"\"year" text
-        doi.title := doiElement\"article_title" text
-        doi.fileDate := depositXml\"@filedate"
-        doi.save()
-    
-        for (urlElement <- doiRecord\\"url") {
-            val uri = new Uri()
-            uri.url := urlElement text
-            uri.uriType := urlElement\"@Type"
-            uri.doi := doi
-            uri.save()
+        val publication = new Publication()
+        publication.title := depositXml\"@title"
+        publication.publicationType := depositXml\"@pubType"
+        publication.pIssn := depositXml\"@pissn"
+        publication.eIssn := depositXml\"@eissn"
+        publication.save()
+            
+        for (publisher <- depositXml\\"publisher") {
+            val publisher = new Publisher()
+            publisher.name := publisher\"publisher_name" text
+            publisher.location := publisher\"publisher_location" text
+            publisher.save()
+            
+            val publicationsPublisher = new PublicationsPublisher()
+            publicationsPublisher.publisher := publisher
+            publicationsPublisher.publication := publication
+            publicationsPublisher.save()
         }
         
-        for (authorElement <- doiRecord\\"contributors") {
-            val author = new Author()
-            author.givenName := authorElement\"given_name" text
-            author.surname := authorElement\"surname" text
-            author.contributorRole := authorElement\"@contributor_role"
-            author.sequence := authorElement\"@sequence"
-            author.doi := doi
-            author.save()
-        }
+        for (doiElement <- depositXml\\"doi_record") {
+            val doi = new Doi()
+            doi.doi := doiElement\"doi" text
+            doi.citationid := doiElement\"doi" text
+            doi.dateStamp := doiElement\"@datestamp"
+            doi.owner := doiElement\"@owner"
+            doi.volume := doiElement\"volume" text
+            doi.issue := doiElement\"issue" text
+            doi.firstPage := doiElement\"first_page" text
+            doi.lastPage := doiElement\"last_page" text
+            doi.day := doiElement\"publication_date"\"day" text
+            doi.month := doiElement\"publication_date"\"month" text
+            doi.year := doiElement\"publication_date"\"year" text
+            doi.title := doiElement\"article_title" text
+            doi.fileDate := depositXml\"@filedate"
+            doi.save()
         
-        val publicationsDoi = new PublicationsDoi()
-        publicationsDoi.doi := doi
-        publicationsDoi.publication := publication
-        publicationsDoi.save()
+            for (urlElement <- doiRecord\\"url") {
+                val uri = new Uri()
+                uri.url := urlElement text
+                uri.uriType := urlElement\"@Type"
+                uri.doi := doi
+                uri.save()
+            }
+            
+            for (authorElement <- doiRecord\\"contributors") {
+                val author = new Author()
+                author.givenName := authorElement\"given_name" text
+                author.surname := authorElement\"surname" text
+                author.contributorRole := authorElement\"@contributor_role"
+                author.sequence := authorElement\"@sequence"
+                author.doi := doi
+                author.save()
+            }
+            
+            val publicationsDoi = new PublicationsDoi()
+            publicationsDoi.doi := doi
+            publicationsDoi.publication := publication
+            publicationsDoi.save()
+        }
     }
 }
 
