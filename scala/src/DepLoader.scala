@@ -3,81 +3,65 @@ import ru.circumflex.orm._
 
 object DepLoader extends Application {
     
-    val splitDepositXml = None
-    
-    var partialXml = None
-    
-    val depositXml = 
-        <publication eissn="1550235X" filedate="3-APR-2009" mode="full" 
-                     pissn="10980121" pubType="journal" title="Physical Review B">
-            <publisher>
-                <publisher_name>American Physical Society (APS)</publisher_name>
-                <publisher_result_name>American Physical Society (APS)</publisher_result_name>
-                <publisher_location>Ridge, NY USA</publisher_location>
-                <email_address>rakelly@aps.org</email_address>
-            </publisher>
-            <doi_record citationid="5576726" datestamp="2007-08-05" owner="10.1103">
-                <doi>10.1103/PhysRevB.66.132511</doi>
-                <contributors>
-                    <person_name contributor_role="author" sequence="first">
-                        <given_name>Nobuhiko</given_name>
-                        <surname>Hayashi</surname>
-                    </person_name>
-                    <person_name contributor_role="author" sequence="additional">
-                        <given_name>Yusuke</given_name>
-                        <surname>Kato</surname>
-                    </person_name>
-                </contributors>
-                <volume>66</volume>
-                <issue>13</issue>
-                <first_page>132511</first_page>
-                <publication_date>
-                    <month>10</month>
-                    <year>2002</year>
-                </publication_date>
-                <publication_type>full_text</publication_type>
-                <article_title>Elementary vortex pinning potential in a chiral p-wave superconductor</article_title>
-                <url type="xref:url:prime">http://link.aps.org/doi/10.1103/PhysRevB.66.132511</url>
-            </doi_record>
-        </publication>
+    val publication = new Publication()
+    publication.title := depositXml\"@title"
+    publication.publicationType := depositXml\"@pubType"
+    publication.pIssn := depositXml\"@pissn"
+    publication.eIssn := depositXml\"@eissn"
+    publication.save()
         
-    val name = depositXml\"@title"
-    val publicationType = depositXml\"@pubType"
-    val pIssn = depositXml\"@pissn"
-    val eIssn = depositXml\"@eissn"
-    
-    val doi = depositXml\"doi_record"\"doi" text
-    val citationId = depositXml\"doi_record"\"doi" text
-    val dateStamp = depositXml\"doi_record"\"@datestamp"
-    val owner = depositXml\"doi_record"\"@owner"
-    val volume = depositXml\"doi_record"\"volume" text
-    val issue = depositXml\"doi_record"\"issue" text
-    val firstPage = depositXml\"doi_record"\"first_page" text
-    val lastPage = depositXml\"doi_record"\"last_page" text
-    val day = depositXml\"doi_record"\"publication_date"\"day" text
-    val month = depositXml\"doi_record"\"publication_date"\"month" text
-    val year = depositXml\"doi_record"\"publication_date"\"year" text
-    val title = depositXml\"doi_record"\"article_title" text
-    val fileDate = depositXml\"@filedate"
-    
     for (publisher <- depositXml\\"publisher") {
-        val name = publisher\"publisher_name" text
-        val location = publisher\"publisher_location" text
+        val publisher = new Publisher()
+        publisher.name := publisher\"publisher_name" text
+        publisher.location := publisher\"publisher_location" text
+        publisher.save()
+        
+        val publicationsPublisher = new PublicationsPublisher()
+        publicationsPublisher.publisher = publisher
+        publicationsPublisher.publication = publication
+        publicationsPublisher.save()
     }
     
-    for (uri <- depositXml\"doi_record"\\"url") {
-        val url = uri text
-        val uriType = uri\"@type"
-    }
+    for (doiElement <- depositXml\\"doi_record") {
+        val doi = new Doi()
+        doi.doi := doiElement\"doi" text
+        doi.citationid := doiElement\"doi" text
+        doi.dateStamp := doiElement\"@datestamp"
+        doi.owner := doiElement\"@owner"
+        doi.volume := doiElement\"volume" text
+        doi.issue := doiElement\"issue" text
+        doi.firstPage := doiElement\"first_page" text
+        doi.lastPage := doiElement\"last_page" text
+        doi.day := doiElement\"publication_date"\"day" text
+        doi.month := doiElement\"publication_date"\"month" text
+        doi.year := doiElement\"publication_date"\"year" text
+        doi.title := doiElement\"article_title" text
+        doi.fileDate := depositXml\"@filedate"
+        doi.save()
     
-    for (author <- depositXml\"doi_record"\\"contributors") {
-        val givenName = author\"given_name" text
-        val surname = author\"surname" text
-        val contributorRole = author\"@contributor_role"
-        val sequence = author\"@sequence"
+        for (urlElement <- doiRecord\\"url") {
+            val uri = new Uri()
+            uri.url := urlElement text
+            uri.uriType := urlElement\"@Type"
+            uri.doi := doi
+            uri.save()
+        }
+        
+        for (authorElement <- doiRecord\\"contributors") {
+            val author = new Author()
+            author.givenName := authorElement\"given_name" text
+            author.surname := authorElement\"surname" text
+            author.contributorRole := authorElement\"@contributor_role"
+            author.sequence := authorElement\"@sequence"
+            author.doi := doi
+            author.save()
+        }
+        
+        val publicationsDoi = new PublicationsDoi()
+        publicationsDoi.doi = doi
+        publicationsDoi.publication = publication
+        publicationsDoi.save()
     }
-    
-    println(doi)
 }
 
 class Publication extends Record[Publication] {
@@ -93,7 +77,6 @@ object Publication extends Table[Publication] {
 }
 
 class Doi extends Record[Doi] {
-    val id = field(Doi.id)
     val doi = "doi" VARCHAR(255) NOT_NULL
     val citationId = "citationId" VARCHAR NULLABLE
     val dateStamp = "dateStamp" VARCHAR NULLABLE
@@ -108,6 +91,7 @@ class Doi extends Record[Doi] {
     val title = "title" TEXT NULLABLE
     val fileDate = "fileDate" VARCHAR NULLABLE
     val xml = "xml" TEXT NOT_NULL
+    doi.save()
 }
 
 class Author extends Record[Author] {
@@ -115,11 +99,13 @@ class Author extends Record[Author] {
     val surname = "surname" VARCHAR NULLABLE
     val contributorRole = "contributorRole" VARCHAR NULLABLE
     val sequence = "sequence" VARCHAR NULLABLE
+    val doi = REFERENCS(Doi)
 }
 
 class Uri extends Record[Uri] {
     val url = "url" TEXT NOT_NULL
     val uriType = "uriType" VARCHAR NULLABLE
+    val doi = REFERENCES(Doi)
 }
 
 class Publisher extends Record[Publisher] {
@@ -130,4 +116,14 @@ class Publisher extends Record[Publisher] {
 object Publisher extends Table[Publisher] {
     UNIQUE(name)
     INDEX(name)
+}
+
+class PublicationsDoi extends Record[PublishersDois] {
+    val publication = REFERENCES(Publisher)
+    val doi = REFERENCES(Doi)
+}
+
+class PublicationsPublisher extends Record[PublishersPublications] {
+    val publisher = REFERENCES(Publisher)
+    val publication = REFERENCES(Publication)
 }
