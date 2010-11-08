@@ -17,8 +17,8 @@ object DepLoader extends Application {
         publisher.save()
         
         val publicationsPublisher = new PublicationsPublisher()
-        publicationsPublisher.publisher = publisher
-        publicationsPublisher.publication = publication
+        publicationsPublisher.publisher := publisher
+        publicationsPublisher.publication := publication
         publicationsPublisher.save()
     }
     
@@ -58,8 +58,8 @@ object DepLoader extends Application {
         }
         
         val publicationsDoi = new PublicationsDoi()
-        publicationsDoi.doi = doi
-        publicationsDoi.publication = publication
+        publicationsDoi.doi := doi
+        publicationsDoi.publication := publication
         publicationsDoi.save()
     }
 }
