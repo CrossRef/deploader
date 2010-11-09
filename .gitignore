@@ -3,6 +3,7 @@ scala/bin
 scala/target
 scala/project/boot
 scala/project/target
+scala/project/build/target
 scala/lib_managed
 in
 out
