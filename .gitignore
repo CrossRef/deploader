@@ -2,6 +2,7 @@ groovy/bin
 scala/bin
 scala/target
 scala/project/boot
+scala/project/target
 in
 out
 working
