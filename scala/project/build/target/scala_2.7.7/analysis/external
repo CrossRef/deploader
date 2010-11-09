@@ -1,0 +1,4 @@
+#External Dependencies
+#Tue Nov 09 10:42:04 GMT 2010
+/Users/karl/test/project/boot/scala-2.7.7/lib/scala-library.jar=DepLoaderProject.scala
+/Users/karl/test/project/boot/scala-2.7.7/org.scala-tools.sbt/sbt/0.7.4/sbt_2.7.7-0.7.4.jar=DepLoaderProject.scala

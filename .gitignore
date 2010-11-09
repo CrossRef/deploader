@@ -1,2 +1,7 @@
 groovy/bin
 scala/bin
+scala/target
+scala/project/boot
+in
+out
+working
