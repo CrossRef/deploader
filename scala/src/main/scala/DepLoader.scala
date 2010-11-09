@@ -1,12 +1,15 @@
 import scala.xml._
 import java.io.File
 import _root_.net.liftweb.mapper._
+import _root_.java.sql._
 
 object DepLoader extends Application {
     
     def inDirectory = "../in"
     def outDirectory = "../out"
     def workingDirectory = "../working"
+        
+    DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
         
     for (depositFile <- new File(inDirectory).listFiles) {
         var depositXml = XML.loadFile(depositFile)
@@ -45,6 +48,7 @@ object DepLoader extends Application {
             doi.year(doiElement\"publication_date"\"year" text)
             doi.title(doiElement\"article_title" text)
             doi.fileDate(depositXml\"@filedate" text)
+            doi.xml(doiElement toString)
             doi.save
         
             for (urlElement <- doiElement\\"url") {
@@ -71,6 +75,21 @@ object DepLoader extends Application {
             publicationsDoi.save
         }
     }
+}
+
+object DBVendor extends ConnectionManager {
+    Class.forName("org.mysql.Driver")
+    
+    def newConnection(name : ConnectionIdentifier) =
+        try {
+            Full(DriverManager.getConnection(
+                    "jdbc:mysql://localhost/deploader",
+                    "root", "root"))
+        } catch {
+            case e : Exception => e.printStackTrace; Empty
+        }
+        
+    def releaseConnection(conn : Connection) = conn.close()
 }
 
 class Publication extends LongKeyedMapper[Publication] with IdPK {
