@@ -3,6 +3,9 @@ import java.io.File
 import _root_.net.liftweb.mapper._
 import _root_.net.liftweb.common._
 import _root_.java.sql._
+import scala.xml._
+import scala.xml.pull._
+import scala.io.Source
 
 object DepLoader extends Application {
     
@@ -13,7 +16,49 @@ object DepLoader extends Application {
     DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
         
     for (depositFile <- new File(inDirectory).listFiles) {
-        var depositXml = XML.loadFile(depositFile)
+        
+        
+        val events = new XMLEventReader(Source.fromFile(depositFile))
+        events.foreach((e : XMLEvent) => {
+            e match {
+                case EvElemStart(_, "publication", a, _) => {
+                    publicationNode = collectPublication(a, events)
+                }
+                case EvElemStart(_, "publisher", a, _) => collectPublisher(e) {
+                    val n = collectBranch("publisher", a, events)
+                    publicationNode.appendChild(n)
+                }
+                case EvElemStart(_, "doi_record", _, _) => collectDoiRecord() {
+                    val n = collectBranch("doi_record", a, events)
+                    publicatioNode.appendChild(n)
+                    writeRecords(publicationNode)
+                    publicationNode.removeChild(n)
+                }
+            }
+        })
+    }
+    
+    def collectBranch(endTag : String, as : MetaData, events : XMLEventReader) {
+        var top = new Elem("", endTag, as, "")
+        
+        events.next() match {
+            case EvElemStart(_, tag, attrs, _) => {
+                
+            }
+            case EvElemEnd(_, endTag) => {
+                
+            }
+            case EvElemEnd(_, _) => {
+                
+            }
+        }
+        
+        top
+    }
+    
+    
+    def writeRecords(node : Elem) {
+        var depositXml = XML.load(currentPublicationNode)
         
         val publication = Publication.create
         publication.title(depositXml\"@title" text)
@@ -21,7 +66,7 @@ object DepLoader extends Application {
         publication.eIssn(depositXml\"@eissn" text)
         publication.publicationType(depositXml\"@pubType" text)
         publication.save
-            
+        
         for (publisherElement <- depositXml\\"publisher") {
             val publisher = Publisher.create
             publisher.name(publisherElement\"publisher_name" text)
