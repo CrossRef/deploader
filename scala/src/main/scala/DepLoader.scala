@@ -79,7 +79,7 @@ object DepLoader extends Application {
 }
 
 object DBVendor extends ConnectionManager {
-    Class.forName("org.mysql.Driver")
+    Class.forName("com.mysql.jdbc.Driver")
     
     def newConnection(name : ConnectionIdentifier) =
         try {
