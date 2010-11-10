@@ -6,6 +6,7 @@ import _root_.java.sql._
 import scala.xml._
 import scala.xml.pull._
 import scala.io.Source
+import java.xml._
 
 object DepLoader extends Application {
     
@@ -16,41 +17,44 @@ object DepLoader extends Application {
     DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
         
     for (depositFile <- new File(inDirectory).listFiles) {
-        
+        Document holderDoc
+        Element publicationElement
         
         val events = new XMLEventReader(Source.fromFile(depositFile))
         events.foreach((e : XMLEvent) => {
             e match {
                 case EvElemStart(_, "publication", a, _) => {
-                    publicationNode = collectPublication(a, events)
+                    publicationElement = collectBranch(holderDoc, 
+                                                       "publication", 
+                                                       a, 
+                                                       events)
                 }
-                case EvElemStart(_, "publisher", a, _) => collectPublisher(e) {
-                    val n = collectBranch("publisher", a, events)
-                    publicationNode.appendChild(n)
+                case EvElemStart(_, "publisher", a, _) => {
+                    val n = collectBranch(holderDoc, "publisher", a, events)
+                    publicationElement.appendChild(n)
                 }
-                case EvElemStart(_, "doi_record", _, _) => collectDoiRecord() {
-                    val n = collectBranch("doi_record", a, events)
-                    publicatioNode.appendChild(n)
-                    writeRecords(publicationNode)
-                    publicationNode.removeChild(n)
+                case EvElemStart(_, "doi_record", _, _) => {
+                    val n = collectBranch(holderDoc, "doi_record", a, events)
+                    publicationElement.appendChild(n)
+                    writeRecords(publicationElement)
+                    publicationElement.removeChild(n)
                 }
             }
         })
     }
     
-    def collectBranch(endTag : String, as : MetaData, events : XMLEventReader) {
-        var top = new Elem("", endTag, as, "")
+    def collectBranch(d : Document, endTag : String, as : MetaData, 
+                      events : XMLEventReader) {
+        Element top = d.createElement("endTag")
+        as.foreach((name, value) => {
+            top.setAttribute(name, value)
+        })
         
         events.next() match {
             case EvElemStart(_, tag, attrs, _) => {
-                
+                top.appendChild(collectBranch(d, tag, attrs, events))
             }
-            case EvElemEnd(_, endTag) => {
-                
-            }
-            case EvElemEnd(_, _) => {
-                
-            }
+            case EvText(text) => top.appendChild(createTextNode(text))
         }
         
         top
@@ -58,6 +62,7 @@ object DepLoader extends Application {
     
     
     def writeRecords(node : Elem) {
+        // TODO convert publicationElement to NodeSeq.
         var depositXml = XML.load(currentPublicationNode)
         
         val publication = Publication.create
