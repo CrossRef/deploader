@@ -1,6 +1,7 @@
 import scala.xml._
 import java.io.File
 import _root_.net.liftweb.mapper._
+import _root_.net.liftweb.common._
 import _root_.java.sql._
 
 object DepLoader extends Application {
@@ -86,7 +87,7 @@ object DBVendor extends ConnectionManager {
                     "jdbc:mysql://localhost/deploader",
                     "root", "root"))
         } catch {
-            case e : Exception => e.printStackTrace; Empty
+            case e : Exception => e.printStackTrace(); Empty
         }
         
     def releaseConnection(conn : Connection) = conn.close()
