@@ -6,7 +6,11 @@ import _root_.java.sql._
 import scala.xml._
 import scala.xml.pull._
 import scala.io.Source
-import java.xml._
+import org.w3c.dom._
+import javax.xml.parsers._
+import scala.collection.mutable._
+import scala.xml.parsing._
+import org.apache.xalan.xsltc.trax.DOM2SAX
 
 object DepLoader extends Application {
     
@@ -17,53 +21,68 @@ object DepLoader extends Application {
     DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
         
     for (depositFile <- new File(inDirectory).listFiles) {
-        Document holderDoc
-        Element publicationElement
+        val factory = DocumentBuilderFactory.newInstance()
+        val builder = factory.newDocumentBuilder()
+        val holderDoc = builder.newDocument()
+
+        val docParts = new HashMap[String, org.w3c.dom.Element]
         
         val events = new XMLEventReader(Source.fromFile(depositFile))
         events.foreach((e : XMLEvent) => {
             e match {
                 case EvElemStart(_, "publication", a, _) => {
-                    publicationElement = collectBranch(holderDoc, 
-                                                       "publication", 
-                                                       a, 
-                                                       events)
+                    val publicationElement = collectBranch(holderDoc, 
+                                                           "publication", 
+                                                           a, 
+                                                           events)
+		    docParts.put("pub", publicationElement)
                 }
                 case EvElemStart(_, "publisher", a, _) => {
                     val n = collectBranch(holderDoc, "publisher", a, events)
+		    val publicationElement = docParts.get("pub").head
                     publicationElement.appendChild(n)
                 }
-                case EvElemStart(_, "doi_record", _, _) => {
+                case EvElemStart(_, "doi_record", a, _) => {
                     val n = collectBranch(holderDoc, "doi_record", a, events)
+		    val publicationElement = docParts.get("pub").head
                     publicationElement.appendChild(n)
                     writeRecords(publicationElement)
                     publicationElement.removeChild(n)
                 }
+	        case _ => Nil
             }
         })
     }
     
-    def collectBranch(d : Document, endTag : String, as : MetaData, 
-                      events : XMLEventReader) {
-        Element top = d.createElement("endTag")
-        as.foreach((name, value) => {
-            top.setAttribute(name, value)
+    def collectBranch(d : org.w3c.dom.Document, endTag : String, as : MetaData, 
+                      events : XMLEventReader) : org.w3c.dom.Element = {
+        val top = d.createElement("endTag")
+        as.foreach(a => {
+            top.setAttribute(a.key, a.value.toString())
         })
         
         events.next() match {
             case EvElemStart(_, tag, attrs, _) => {
                 top.appendChild(collectBranch(d, tag, attrs, events))
             }
-            case EvText(text) => top.appendChild(createTextNode(text))
+            case EvText(text) => top.appendChild(d.createTextNode(text))
+	    case _ => Nil
         }
         
         top
     }
+
+    def domToNodeSeq(dom : org.w3c.dom.Node) : scala.xml.Node = {
+      val dom2sax = new DOM2SAX(dom)
+      val adapter = new NoBindingFactoryAdapter
+      dom2sax.setContentHandler(adapter)
+      dom2sax.parse()
+      return adapter.rootElem
+    } 
     
-    
-    def writeRecords(node : Elem) {
+    def writeRecords(node : org.w3c.dom.Element) = {
         // TODO convert publicationElement to NodeSeq.
-        var depositXml = XML.load(currentPublicationNode)
+        var depositXml = domToNodeSeq(node)
         
         val publication = Publication.create
         publication.title(depositXml\"@title" text)
