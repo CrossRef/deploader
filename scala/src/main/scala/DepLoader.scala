@@ -19,6 +19,9 @@ object DepLoader extends Application {
     def workingDirectory = "../working"
         
     DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
+
+    Schemifier.schemify(true, Schemifier.infoF _, Doi, Publication, Publisher, Author, 
+			Uri, PublicationsPublisher, PublicationsDoi)
         
     for (depositFile <- new File(inDirectory).listFiles) {
         val factory = DocumentBuilderFactory.newInstance()
@@ -30,11 +33,11 @@ object DepLoader extends Application {
         val events = new XMLEventReader(Source.fromFile(depositFile))
         events.foreach((e : XMLEvent) => {
             e match {
-                case EvElemStart(_, "publication", a, _) => {
-                    val publicationElement = collectBranch(holderDoc, 
-                                                           "publication", 
-                                                           a, 
-                                                           events)
+                case EvElemStart(_, "publication", attrs, _) => {
+		    val publicationElement = holderDoc.createElement("publication")
+		    attrs.foreach(a => {
+		        publicationElement.setAttribute(a.key, a.value.toString())
+		    })
 		    docParts.put("pub", publicationElement)
                 }
                 case EvElemStart(_, "publisher", a, _) => {
@@ -56,18 +59,19 @@ object DepLoader extends Application {
     
     def collectBranch(d : org.w3c.dom.Document, endTag : String, as : MetaData, 
                       events : XMLEventReader) : org.w3c.dom.Element = {
-        val top = d.createElement("endTag")
+        val top = d.createElement(endTag)
         as.foreach(a => {
             top.setAttribute(a.key, a.value.toString())
         })
         
-        events.next() match {
+        while (events.next() match {
             case EvElemStart(_, tag, attrs, _) => {
-                top.appendChild(collectBranch(d, tag, attrs, events))
+                top.appendChild(collectBranch(d, tag, attrs, events)); true
             }
-            case EvText(text) => top.appendChild(d.createTextNode(text))
-	    case _ => Nil
-        }
+            case EvText(text) => top.appendChild(d.createTextNode(text)); true
+	    case EvElemEnd(_, endTag) => false
+	    case _ => true
+        }) Nil
         
         top
     }
@@ -83,16 +87,27 @@ object DepLoader extends Application {
     def writeRecords(node : org.w3c.dom.Element) = {
         // TODO convert publicationElement to NodeSeq.
         var depositXml = domToNodeSeq(node)
+
+        val publicationTitle = depositXml\"@title" text
         
-        val publication = Publication.create
-        publication.title(depositXml\"@title" text)
+        val pubBox : Box[Publication] = Publication.find(By(Publication.title,
+							    publicationTitle))
+
+        val publication = if (pubBox.isDefined) pubBox.open_! else Publication.create
+	    
+        publication.title(publicationTitle)
         publication.pIssn(depositXml\"@pissn" text)
         publication.eIssn(depositXml\"@eissn" text)
         publication.publicationType(depositXml\"@pubType" text)
         publication.save
         
         for (publisherElement <- depositXml\\"publisher") {
-            val publisher = Publisher.create
+	    val publisherName = publisherElement\"publisher_name" text
+	    val publisherBox : Box[Publisher]  = Publisher.find(By(Publisher.name,
+								   publisherName))
+
+	    val publisher = if (publisherBox.isDefined) publisherBox.open_! else Publisher.create
+
             publisher.name(publisherElement\"publisher_name" text)
             publisher.location(publisherElement\"publisher_location" text)
             publisher.save
@@ -104,7 +119,11 @@ object DepLoader extends Application {
         }
         
         for (doiElement <- depositXml\\"doi_record") {
-            val doi = Doi.create
+            val doiValue = doiElement\"doi" text
+	    val doiBox : Box[Doi] = Doi.find(By(Doi.doi, doiValue))
+
+            val doi = if (doiBox.isDefined) doiBox.open_! else Doi.create
+
             doi.doi(doiElement\"doi" text)
             doi.citationId(doiElement\"doi" text)
             doi.dateStamp(doiElement\"@datestamp" text)
@@ -166,7 +185,7 @@ class Publication extends LongKeyedMapper[Publication] with IdPK {
     def getSingleton = Publication
     object eIssn extends MappedString(this, 50)
     object pIssn extends MappedString(this, 50)
-    object title extends MappedText(this) {
+    object title extends MappedString(this, 255) {
         override def dbIndexed_? = true // & unique
     }
     object publicationType extends MappedString(this, 50)
