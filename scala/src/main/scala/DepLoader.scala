@@ -58,7 +58,7 @@ object DepLoader extends Application {
             case EvElemStart(_, tag, attrs, _) => {
 	        kids + collectBranch(tag, attrs, events); true
             }
-            case EvText(text) => kids + new scala.xml.Text(text); true
+            case EvText(text) => kids + new Text(text); true
 	    case EvElemEnd(_, endTag) => false
 	    case _ => true
         }) Nil
@@ -128,7 +128,7 @@ object DepLoader extends Application {
                 uri.save
             }
             
-            for (authorElement <- doiElement\\"contributors") {
+            for (authorElement <- doiElement\"contributors"\\"person_name") {
                 val author = Author.create
                 author.givenName(authorElement\"given_name" text)
                 author.surname(authorElement\"surname" text)
