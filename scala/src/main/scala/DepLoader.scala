@@ -29,6 +29,7 @@ object DepLoader extends Application {
         val holderDoc = builder.newDocument()
 
         val docParts = new HashMap[String, org.w3c.dom.Element]
+	val pubParts = new HashMap[String, Publication]
         
         val events = new XMLEventReader(Source.fromFile(depositFile))
         events.foreach((e : XMLEvent) => {
@@ -39,17 +40,22 @@ object DepLoader extends Application {
 		        publicationElement.setAttribute(a.key, a.value.toString())
 		    })
 		    docParts.put("pub", publicationElement)
+		    pubParts.put("pub", writePublication(publicationElement))
                 }
                 case EvElemStart(_, "publisher", a, _) => {
                     val n = collectBranch(holderDoc, "publisher", a, events)
 		    val publicationElement = docParts.get("pub").head
                     publicationElement.appendChild(n)
+
+		    val publicationObject = pubParts.get("pub").head
+		    writePublisher(publicationObject, publicationElement)
                 }
                 case EvElemStart(_, "doi_record", a, _) => {
                     val n = collectBranch(holderDoc, "doi_record", a, events)
 		    val publicationElement = docParts.get("pub").head
+		    val publicationObject = pubParts.get("pub").head
                     publicationElement.appendChild(n)
-                    writeRecords(publicationElement)
+                    writeRecords(publicationObject, publicationElement)
                     publicationElement.removeChild(n)
                 }
 	        case _ => Nil
@@ -83,9 +89,8 @@ object DepLoader extends Application {
       dom2sax.parse()
       return adapter.rootElem
     } 
-    
-    def writeRecords(node : org.w3c.dom.Element) = {
-        // TODO convert publicationElement to NodeSeq.
+
+    def writePublication(node : org.w3c.dom.Element) = {
         var depositXml = domToNodeSeq(node)
 
         val publicationTitle = depositXml\"@title" text
@@ -100,7 +105,13 @@ object DepLoader extends Application {
         publication.eIssn(depositXml\"@eissn" text)
         publication.publicationType(depositXml\"@pubType" text)
         publication.save
-        
+
+        publication
+    }
+
+    def writePublisher(publication : Publication, node : org.w3c.dom.Element) = {
+        var depositXml = domToNodeSeq(node)
+
         for (publisherElement <- depositXml\\"publisher") {
 	    val publisherName = publisherElement\"publisher_name" text
 	    val publisherBox : Box[Publisher]  = Publisher.find(By(Publisher.name,
@@ -117,6 +128,10 @@ object DepLoader extends Application {
             publicationsPublisher.publication(publication)
             publicationsPublisher.save
         }
+    }
+    
+    def writeRecords(publication : Publication, node : org.w3c.dom.Element) = {
+        var depositXml = domToNodeSeq(node)
         
         for (doiElement <- depositXml\\"doi_record") {
             val doiValue = doiElement\"doi" text
@@ -185,7 +200,7 @@ class Publication extends LongKeyedMapper[Publication] with IdPK {
     def getSingleton = Publication
     object eIssn extends MappedString(this, 50)
     object pIssn extends MappedString(this, 50)
-    object title extends MappedString(this, 255) {
+    object title extends MappedString(this, 50) {
         override def dbIndexed_? = true // & unique
     }
     object publicationType extends MappedString(this, 50)
@@ -240,7 +255,7 @@ class Publisher extends LongKeyedMapper[Publisher] with IdPK {
     object name extends MappedString(this, 255) {
         override def dbIndexed_? = true // & unique
     }
-    object location extends MappedText(this)
+    object location extends MappedString(this, 255)
 }
 
 object Publisher extends Publisher with LongKeyedMetaMapper[Publisher]
