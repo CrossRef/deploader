@@ -6,11 +6,15 @@ import _root_.java.sql._
 import scala.xml._
 import scala.xml.pull._
 import scala.io.Source
-import org.w3c.dom._
 import javax.xml.parsers._
 import scala.collection.mutable._
 import scala.xml.parsing._
 import org.apache.xalan.xsltc.trax.DOM2SAX
+
+class PublicationContext {
+    var element : Elem = null
+    var dbObject : Publication = null
+}
 
 object DepLoader extends Application {
     
@@ -24,76 +28,46 @@ object DepLoader extends Application {
 			Uri, PublicationsPublisher, PublicationsDoi)
         
     for (depositFile <- new File(inDirectory).listFiles) {
-        val factory = DocumentBuilderFactory.newInstance()
-        val builder = factory.newDocumentBuilder()
-        val holderDoc = builder.newDocument()
-
-        val docParts = new HashMap[String, org.w3c.dom.Element]
-	val pubParts = new HashMap[String, Publication]
         
+        val pc = new PublicationContext
+
         val events = new XMLEventReader(Source.fromFile(depositFile))
         events.foreach((e : XMLEvent) => {
             e match {
                 case EvElemStart(_, "publication", attrs, _) => {
-		    val publicationElement = holderDoc.createElement("publication")
-		    attrs.foreach(a => {
-		        publicationElement.setAttribute(a.key, a.value.toString())
-		    })
-		    docParts.put("pub", publicationElement)
-		    pubParts.put("pub", writePublication(publicationElement))
+		    pc.element = new Elem(null, "publication", attrs, TopScope)
+		    pc.dbObject = writePublication(pc.element)
                 }
-                case EvElemStart(_, "publisher", a, _) => {
-                    val n = collectBranch(holderDoc, "publisher", a, events)
-		    val publicationElement = docParts.get("pub").head
-                    publicationElement.appendChild(n)
-
-		    val publicationObject = pubParts.get("pub").head
-		    writePublisher(publicationObject, publicationElement)
+                case EvElemStart(_, "publisher", attrs, _) => {
+		    val n = collectBranch("publisher", attrs, events)
+		    writePublisher(pc.dbObject, n)
                 }
-                case EvElemStart(_, "doi_record", a, _) => {
-                    val n = collectBranch(holderDoc, "doi_record", a, events)
-		    val publicationElement = docParts.get("pub").head
-		    val publicationObject = pubParts.get("pub").head
-                    publicationElement.appendChild(n)
-                    writeRecords(publicationObject, publicationElement)
-                    publicationElement.removeChild(n)
+                case EvElemStart(_, "doi_record", attrs, _) => {
+                    val n = collectBranch("doi_record", attrs, events)
+		    writeDoi(pc.dbObject, n)
                 }
 	        case _ => Nil
             }
         })
     }
     
-    def collectBranch(d : org.w3c.dom.Document, endTag : String, as : MetaData, 
-                      events : XMLEventReader) : org.w3c.dom.Element = {
-        val top = d.createElement(endTag)
-        as.foreach(a => {
-            top.setAttribute(a.key, a.value.toString())
-        })
+    def collectBranch(endTag : String, as : MetaData, events : XMLEventReader) : Node = {
+        val kids = new ListBuffer[scala.xml.Node]
         
         while (events.next() match {
             case EvElemStart(_, tag, attrs, _) => {
-                top.appendChild(collectBranch(d, tag, attrs, events)); true
+	        kids + collectBranch(tag, attrs, events); true
             }
-            case EvText(text) => top.appendChild(d.createTextNode(text)); true
+            case EvText(text) => kids + new scala.xml.Text(text); true
 	    case EvElemEnd(_, endTag) => false
 	    case _ => true
         }) Nil
-        
-        top
+
+      new Elem(null, endTag, as, TopScope, kids : _*)
     }
 
-    def domToNodeSeq(dom : org.w3c.dom.Node) : scala.xml.Node = {
-      val dom2sax = new DOM2SAX(dom)
-      val adapter = new NoBindingFactoryAdapter
-      dom2sax.setContentHandler(adapter)
-      dom2sax.parse()
-      return adapter.rootElem
-    } 
-
-    def writePublication(node : org.w3c.dom.Element) = {
-        var depositXml = domToNodeSeq(node)
-
-        val publicationTitle = depositXml\"@title" text
+    def writePublication(publicationElement : Node) = {
+        val publicationTitle = publicationElement\"@title" text
         
         val pubBox : Box[Publication] = Publication.find(By(Publication.title,
 							    publicationTitle))
@@ -101,59 +75,50 @@ object DepLoader extends Application {
         val publication = if (pubBox.isDefined) pubBox.open_! else Publication.create
 	    
         publication.title(publicationTitle)
-        publication.pIssn(depositXml\"@pissn" text)
-        publication.eIssn(depositXml\"@eissn" text)
-        publication.publicationType(depositXml\"@pubType" text)
+        publication.pIssn(publicationElement\"@pissn" text)
+        publication.eIssn(publicationElement\"@eissn" text)
+        publication.publicationType(publicationElement\"@pubType" text)
         publication.save
 
         publication
     }
 
-    def writePublisher(publication : Publication, node : org.w3c.dom.Element) = {
-        var depositXml = domToNodeSeq(node)
+    def writePublisher(publication : Publication, publisherElement : Node) = {
+        val publisherName = publisherElement\"publisher_name" text
+	val publisherBox : Box[Publisher]  = Publisher.find(By(Publisher.name,
+							       publisherName))
+	val publisher = if (publisherBox.isDefined) publisherBox.open_! else Publisher.create
 
-        for (publisherElement <- depositXml\\"publisher") {
-	    val publisherName = publisherElement\"publisher_name" text
-	    val publisherBox : Box[Publisher]  = Publisher.find(By(Publisher.name,
-								   publisherName))
-
-	    val publisher = if (publisherBox.isDefined) publisherBox.open_! else Publisher.create
-
-            publisher.name(publisherElement\"publisher_name" text)
-            publisher.location(publisherElement\"publisher_location" text)
-            publisher.save
+        publisher.name(publisherElement\"publisher_name" text)
+        publisher.location(publisherElement\"publisher_location" text)
+        publisher.save
             
-            val publicationsPublisher = PublicationsPublisher.create
-            publicationsPublisher.publisher(publisher)
-            publicationsPublisher.publication(publication)
-            publicationsPublisher.save
-        }
+        val publicationsPublisher = PublicationsPublisher.create
+        publicationsPublisher.publisher(publisher)
+        publicationsPublisher.publication(publication)
+        publicationsPublisher.save
     }
     
-    def writeRecords(publication : Publication, node : org.w3c.dom.Element) = {
-        var depositXml = domToNodeSeq(node)
-        
-        for (doiElement <- depositXml\\"doi_record") {
-            val doiValue = doiElement\"doi" text
-	    val doiBox : Box[Doi] = Doi.find(By(Doi.doi, doiValue))
+    def writeDoi(publication : Publication, doiElement : Node) = {
+        val doiValue = doiElement\"doi" text
+	val doiBox : Box[Doi] = Doi.find(By(Doi.doi, doiValue))
+        val doi = if (doiBox.isDefined) doiBox.open_! else Doi.create
 
-            val doi = if (doiBox.isDefined) doiBox.open_! else Doi.create
-
-            doi.doi(doiElement\"doi" text)
-            doi.citationId(doiElement\"doi" text)
-            doi.dateStamp(doiElement\"@datestamp" text)
-            doi.owner(doiElement\"@owner" text)
-            doi.volume(doiElement\"volume" text)
-            doi.issue(doiElement\"issue" text)
-            doi.firstPage(doiElement\"first_page" text)
-            doi.lastPage(doiElement\"last_page" text)
-            doi.day(doiElement\"publication_date"\"day" text)
-            doi.month(doiElement\"publication_date"\"month" text)
-            doi.year(doiElement\"publication_date"\"year" text)
-            doi.title(doiElement\"article_title" text)
-            doi.fileDate(depositXml\"@filedate" text)
-            doi.xml(doiElement toString)
-            doi.save
+        doi.doi(doiElement\"doi" text)
+        doi.citationId(doiElement\"doi" text)
+        doi.dateStamp(doiElement\"@datestamp" text)
+        doi.owner(doiElement\"@owner" text)
+        doi.volume(doiElement\"volume" text)
+        doi.issue(doiElement\"issue" text)
+        doi.firstPage(doiElement\"first_page" text)
+        doi.lastPage(doiElement\"last_page" text)
+        doi.day(doiElement\"publication_date"\"day" text)
+        doi.month(doiElement\"publication_date"\"month" text)
+        doi.year(doiElement\"publication_date"\"year" text)
+        doi.title(doiElement\"article_title" text)
+        //doi.fileDate(depositXml\"@filedate" text)
+        //doi.xml(doiElement toString)
+        doi.save
         
             for (urlElement <- doiElement\\"url") {
                 val uri = Uri.create
@@ -178,7 +143,6 @@ object DepLoader extends Application {
             publicationsDoi.publication(publication)
             publicationsDoi.save
         }
-    }
 }
 
 object DBVendor extends ConnectionManager {
