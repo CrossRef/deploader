@@ -18,9 +18,9 @@ class PublicationContext {
 
 object DepLoader extends Application {
     
-    def inDirectory = "../in"
-    def outDirectory = "../out"
-    def workingDirectory = "../working"
+    val inDirectory = "../in"
+    val outDirectory = "../out"
+    val workingDirectory = "../working"
         
     DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
 
@@ -28,10 +28,19 @@ object DepLoader extends Application {
 			Uri, PublicationsPublisher, PublicationsDoi)
         
     for (depositFile <- new File(inDirectory).listFiles) {
+
+        println("Processing " + depositFile.getName())
+
+	val workingDepositFile = new File(workingDirectory + "/" + depositFile.getName())
+        val outDepositFile = new File(outDirectory + "/" + depositFile.getName())
+
+        depositFile.renameTo(workingDepositFile)
         
         val pc = new PublicationContext
 
-        val events = new XMLEventReader(Source.fromFile(depositFile))
+        val startTime = System.currentTimeMillis()
+
+        val events = new XMLEventReader(Source.fromFile(workingDepositFile))
         events.foreach((e : XMLEvent) => {
             e match {
                 case EvElemStart(_, "publication", attrs, _) => {
@@ -49,6 +58,12 @@ object DepLoader extends Application {
 	        case _ => Nil
             }
         })
+
+	val endTime = System.currentTimeMillis()
+        println("Successfully completed processing of " + depositFile.getName())
+        println("It took " + ((endTime - startTime) / 1000) + " seconds")
+
+        depositFile.renameTo(outDepositFile)
     }
     
     def collectBranch(endTag : String, as : MetaData, events : XMLEventReader) : Node = {
