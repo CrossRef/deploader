@@ -1,0 +1,6 @@
+class Log {
+
+  def recordEvent(e : LogEvent) = {
+  }
+
+}
