@@ -82,7 +82,7 @@ object DepLoader extends Application {
     }
 
     def writePublication(publicationElement : Node) = {
-        val publicationTitle = publicationElement\"@title" text
+        val publicationTitle = (publicationElement\"@title" text)
         
         val pubBox : Box[Publication] = Publication.find(By(Publication.title,
 							    publicationTitle))
