@@ -11,28 +11,29 @@ object DepLoader extends Application {
 
   Schemifier.schemify(true, Schemifier.infoF _, Doi, Publication, Publisher, Author, 
 		      Uri, PublicationsPublisher, PublicationsDoi)
-
-  val depositContext = new DepositContext()
         
-  DepositContext.foreach(context => {
+  while (DepositContext.hasNext()) {
+    val context : DepositContext = DepositContext.next()
     context.start()
-    new DepSplitter(context).split()
+    val ds = new DepSplitter(context)
+    ds.split()
     context.complete()
-  })
+  }
 
 }
 
 object DBVendor extends ConnectionManager {
-    Class.forName("com.mysql.jdbc.Driver")
+  Class.forName("com.mysql.jdbc.Driver")
     
-    def newConnection(name : ConnectionIdentifier) =
-        try {
-            Full(DriverManager.getConnection(
-                    "jdbc:mysql://localhost/deploader",
-                    "root", "root"))
-        } catch {
-            case e : Exception => e.printStackTrace(); Empty
-        }
+  def newConnection(name : ConnectionIdentifier) =
+    try {
+      Full(DriverManager.getConnection(
+        "jdbc:mysql://localhost/deploader",
+        "root", 
+	"root"))
+    } catch {
+      case e : Exception => e.printStackTrace(); Empty
+    }
         
-    def releaseConnection(conn : Connection) = conn.close()
+  def releaseConnection(conn : Connection) = conn.close()
 }

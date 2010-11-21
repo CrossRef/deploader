@@ -16,7 +16,7 @@ class DepositContext extends DirectoryStructure with Log {
   var element : Elem = null
   var publication : Publication = null
 
-  val working : File = new File(workingDirectory)
+  val inD : File = new File(inDirectory)
 
   // TODO sync?
   def start() = {
@@ -48,24 +48,24 @@ class DepositContext extends DirectoryStructure with Log {
 }
 
 object DepositContext extends DepositContext with Iterator[DepositContext] {
-  def newFor(in : File) : DepositContext = {
+  def newFor(inName : String) : DepositContext = {
     val dc = new DepositContext
-    dc.inDepositFile = new File(inDirectory + File.pathSeparator + in)
-    dc.outDepositFile = new File(outDirectory + File.pathSeparator + in.getName())
-    dc.workingDepositFile = new File(workingDirectory + File.pathSeparator + in.getName())
-    dc.errorDepositFile = new File(errorDirectory + File.pathSeparator + in.getName())
+    dc.inDepositFile = new File(inDirectory + File.separator + inName)
+    dc.outDepositFile = new File(outDirectory + File.separator + inName)
+    dc.workingDepositFile = new File(workingDirectory + File.separator + inName)
+    dc.errorDepositFile = new File(errorDirectory + File.separator + inName)
+    dc.currentDepositFile = dc.inDepositFile
     dc
   }
 
   def next() : DepositContext = {
-    val working = new File(workingDirectory)
-    if (working.list.length > 0) {
-     null
+    if (inD.list.length == 0) {
+      null
     } else {
-      newFor(new File(working.list.head))
+      newFor(inD.list.head)
     }
   }
 
-  def hasNext() = working.list.length > 0
+  def hasNext() = inD.list.length > 0
 }
 
