@@ -1,3 +1,5 @@
+package org.crossref.deploader
+
 trait Log {
 
   def recordEvent(e : LogEvent) = {

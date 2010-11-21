@@ -1,17 +1,22 @@
+package org.crossref.deploader
+
 import java.io.File
 import java.io.FilenameFilter
 import scala.xml._
+import org.crossref.deploader.data.Publication
 
 class DepositContext extends DirectoryStructure with Log {
 
-  var inDepositFile : File
-  var outDepositFile : File
-  var workingDepositFile : File
-  var errorDepositFile : File
-  var currentDepositFile : File
+  var inDepositFile : File = null
+  var outDepositFile : File = null
+  var workingDepositFile : File = null
+  var errorDepositFile : File = null
+  var currentDepositFile : File = null
 
   var element : Elem = null
   var publication : Publication = null
+
+  val working : File = new File(workingDirectory)
 
   // TODO sync?
   def start() = {
@@ -38,6 +43,8 @@ class DepositContext extends DirectoryStructure with Log {
     recordEvent(DepositCompleteParseEvent(currentDepositFile.getName()))
   }
 
+  def getFile() = currentDepositFile
+
 }
 
 object DepositContext extends DepositContext with Iterator[DepositContext] {
@@ -58,5 +65,7 @@ object DepositContext extends DepositContext with Iterator[DepositContext] {
       newFor(new File(working.list.head))
     }
   }
+
+  def hasNext() = working.list.length > 0
 }
 

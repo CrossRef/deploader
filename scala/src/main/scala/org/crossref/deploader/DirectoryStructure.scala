@@ -1,3 +1,5 @@
+package org.crossref.deploader
+
 trait DirectoryStructure {
 
   val inDirectory = "../in"
