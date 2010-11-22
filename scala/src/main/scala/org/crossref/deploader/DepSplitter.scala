@@ -103,7 +103,7 @@ class DepSplitter(dc: DepositContext) {
     doi.year(doiElement \ "publication_date" \ "year" text)
     doi.title(doiElement \ "article_title" text)
     doi.fileDate(dc.fileDate)
-    //doi.xml(doiElement toString)
+    doi.xml(doiElement toString)
     doi.save
         
     for (urlElement <- doiElement \\ "url") {
