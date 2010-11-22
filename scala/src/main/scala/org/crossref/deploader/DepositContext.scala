@@ -16,6 +16,8 @@ class DepositContext extends DirectoryStructure with Log {
   var element : Elem = null
   var publication : Publication = null
 
+  var fileDate : String = null
+
   val inD : File = new File(inDirectory)
 
   // TODO sync?

@@ -5,6 +5,7 @@ scala/project/boot
 scala/project/target
 scala/project/build/target
 scala/lib_managed
+scala/log.out
 in
 out
 working

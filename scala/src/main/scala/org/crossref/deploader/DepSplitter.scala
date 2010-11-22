@@ -18,6 +18,7 @@ class DepSplitter(dc: DepositContext) {
         case EvElemStart(_, "publication", attrs, _) => {
 	  dc.element = new Elem(null, "publication", attrs, TopScope)
 	  dc.publication = writePublication(dc.element)
+	  dc.fileDate = parseFileDate(dc.element)
         }
         case EvElemStart(_, "publisher", attrs, _) => {
 	  val n = collectBranch("publisher", attrs, events)
@@ -25,7 +26,7 @@ class DepSplitter(dc: DepositContext) {
         }
         case EvElemStart(_, "doi_record", attrs, _) => {
           val n = collectBranch("doi_record", attrs, events)
-	  writeDoi(dc.publication, n)
+	  writeDoi(dc, n)
         }
 	case _ => Nil
       }
@@ -47,82 +48,86 @@ class DepSplitter(dc: DepositContext) {
     new Elem(null, endTag, as, TopScope, kids : _*)
   }
 
+  def parseFileDate(publicationElement : Node) = publicationElement \ "@filedate" text
+
   def writePublication(publicationElement : Node) = {
-    val publicationTitle = (publicationElement\"@title" text)
+    val publicationTitle = (publicationElement \ "@title" text)
         
-        val pubBox : Box[Publication] = Publication.find(By(Publication.title,
-							    publicationTitle))
+    val pubBox : Box[Publication] = Publication.find(By(Publication.title,
+							publicationTitle))
 
-        val publication = if (pubBox.isDefined) pubBox.open_! else Publication.create
+    val publication = if (pubBox.isDefined) pubBox.open_! else Publication.create
 	    
-        publication.title(publicationTitle)
-        publication.pIssn(publicationElement\"@pissn" text)
-        publication.eIssn(publicationElement\"@eissn" text)
-        publication.publicationType(publicationElement\"@pubType" text)
-        publication.save
+    publication.title(publicationTitle)
+    publication.pIssn(publicationElement \ "@pissn" text)
+    publication.eIssn(publicationElement \ "@eissn" text)
+    publication.publicationType(publicationElement \ "@pubType" text)
+    publication.save
 
-        publication
-    }
+    publication
+  }
 
-    def writePublisher(publication : Publication, publisherElement : Node) = {
-        val publisherName = publisherElement\"publisher_name" text
-	val publisherBox : Box[Publisher]  = Publisher.find(By(Publisher.name,
-							       publisherName))
-	val publisher = if (publisherBox.isDefined) publisherBox.open_! else Publisher.create
+  def writePublisher(publication : Publication, publisherElement : Node) = {
+    val publisherName = publisherElement \ "publisher_name" text
+    val publisherBox : Box[Publisher]  = Publisher.find(By(Publisher.name,
+							   publisherName))
+    val publisher = if (publisherBox.isDefined) publisherBox.open_! else Publisher.create
 
-        publisher.name(publisherElement\"publisher_name" text)
-        publisher.location(publisherElement\"publisher_location" text)
-        publisher.save
+    publisher.name(publisherElement \ "publisher_name" text)
+    publisher.location(publisherElement \ "publisher_location" text)
+    publisher.save
             
-        val publicationsPublisher = PublicationsPublisher.create
-        publicationsPublisher.publisher(publisher)
-        publicationsPublisher.publication(publication)
-        publicationsPublisher.save
-    }
+    val publicationsPublisher = PublicationsPublisher.create
+    publicationsPublisher.publisher(publisher)
+    publicationsPublisher.publication(publication)
+    publicationsPublisher.save
+  }
     
-    def writeDoi(publication : Publication, doiElement : Node) = {
-        val doiValue = doiElement\"doi" text
-	val doiBox : Box[Doi] = Doi.find(By(Doi.doi, doiValue))
-        val doi = if (doiBox.isDefined) doiBox.open_! else Doi.create
+  def writeDoi(dc : DepositContext, doiElement : Node) = {
+    val publication = dc.publication
 
-        doi.doi(doiElement\"doi" text)
-        doi.citationId(doiElement\"doi" text)
-        doi.dateStamp(doiElement\"@datestamp" text)
-        doi.owner(doiElement\"@owner" text)
-        doi.volume(doiElement\"volume" text)
-        doi.issue(doiElement\"issue" text)
-        doi.firstPage(doiElement\"first_page" text)
-        doi.lastPage(doiElement\"last_page" text)
-        doi.day(doiElement\"publication_date"\"day" text)
-        doi.month(doiElement\"publication_date"\"month" text)
-        doi.year(doiElement\"publication_date"\"year" text)
-        doi.title(doiElement\"article_title" text)
-        //doi.fileDate(depositXml\"@filedate" text)
-        //doi.xml(doiElement toString)
-        doi.save
+    val doiValue = doiElement \ "doi" text
+    val doiBox : Box[Doi] = Doi.find(By(Doi.doi, doiValue))
+    val doi = if (doiBox.isDefined) doiBox.open_! else Doi.create
+    
+    doi.doi(doiElement \ "doi" text)
+    doi.citationId(doiElement \ "doi" text)
+    doi.dateStamp(doiElement \ "@datestamp" text)
+    doi.owner(doiElement \ "@owner" text)
+    doi.volume(doiElement \ "volume" text)
+    doi.issue(doiElement \ "issue" text)
+    doi.firstPage(doiElement \ "first_page" text)
+    doi.lastPage(doiElement \ "last_page" text)
+    doi.day(doiElement \ "publication_date" \ "day" text)
+    doi.month(doiElement \ "publication_date" \ "month" text)
+    doi.year(doiElement \ "publication_date" \ "year" text)
+    doi.title(doiElement \ "article_title" text)
+    doi.fileDate(dc.fileDate)
+    //doi.xml(doiElement toString)
+    doi.save
         
-            for (urlElement <- doiElement\\"url") {
-                val uri = Uri.create
-                uri.url(urlElement text)
-                uri.uriType(urlElement\"@Type" text)
-                uri.doi(doi)
-                uri.save
-            }
+    for (urlElement <- doiElement \\ "url") {
+      val uri = Uri.create
+      uri.url(urlElement text)
+      uri.uriType(urlElement \ "@Type" text)
+      uri.doi(doi)
+      uri.save
+    }
             
-            for (authorElement <- doiElement\"contributors"\\"person_name") {
-                val author = Author.create
-                author.givenName(authorElement\"given_name" text)
-                author.surname(authorElement\"surname" text)
-                author.contributorRole(authorElement\"@contributor_role" text)
-                author.sequence(authorElement\"@sequence" text)
-                author.doi(doi)
-                author.save
-            }
+    for (authorElement <- doiElement \ "contributors" \\ "person_name") {
+      val author = Author.create
+      author.givenName(authorElement \ "given_name" text)
+      author.surname(authorElement \ "surname" text)
+      author.contributorRole(authorElement \ "@contributor_role" text)
+      author.sequence(authorElement \ "@sequence" text)
+      author.doi(doi)
+      author.save
+    }
             
-            val publicationsDoi = PublicationsDoi.create
-            publicationsDoi.doi(doi)
-            publicationsDoi.publication(publication)
-            publicationsDoi.save
-        }
+    val publicationsDoi = PublicationsDoi.create
+    publicationsDoi.doi(doi)
+    publicationsDoi.publication(publication)
+    publicationsDoi.save
+  }
 
 }
