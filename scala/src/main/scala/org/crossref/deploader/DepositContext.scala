@@ -60,6 +60,17 @@ object DepositContext extends DepositContext with Iterator[DepositContext] {
     dc
   }
 
+  def newTestFor(inFile : File) : DepositContext = {
+    // Don't move the file around for tests.
+    val dc = new DepositContext
+    dc.inDepositFile = inFile
+    dc.outDepositFile = inFile
+    dc.workingDepositFile = inFile
+    dc.errorDepositFile = inFile
+    dc.currentDepositFile = inFile
+    dc
+  }
+
   def next() : DepositContext = {
     if (inD.list.length == 0) {
       null
