@@ -2,7 +2,7 @@
 
 (
 
-:project-package ""
+:project-package "org.crossref.deploader"
 
 :use-sbt t
 
