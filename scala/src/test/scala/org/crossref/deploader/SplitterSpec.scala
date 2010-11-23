@@ -43,7 +43,7 @@ class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure 
 
     // Check that a publisher has been created
     val publisherName = (dcToXml(dc) \ "publisher" \ "publisher_name" text)
-    Publisher.count(By(Publisher.name, publisherName)) > 0
+    assert(Publisher.count(By(Publisher.name, publisherName)) > 0)
   }
 
   test("Publisher is updated for existing publisher name") {
@@ -63,7 +63,7 @@ class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure 
 
     // Check that doi has been created
     val doi = (dcToXml(dc) \ "doi_record" \ "doi" text)
-    Doi.count(By(Doi.doi, doi)) > 0
+    assert(Doi.count(By(Doi.doi, doi)) > 0)
   }
 
   test("Doi is updated for existing doi") {
@@ -76,11 +76,30 @@ class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure 
     // Check that doi has details from complete xml
   }
 
-  test("Publication is created for non-existant publication title") (pending)
+  test("Publication is created for non-existant publication title") {
+    prepareDatabase
+    val dc = prepareXml(shortCompleteXml)
+    new DepSplitter(dc) split
+    
+    // Check that publication has been created
+    val publicationTitle = (dcToXml(dc) \ "@title" text)
+    assert(Publication.count(By(Publication.title, publicationTitle)) > 0)
+  }
 
   test("Publication is updated for existing publication title") (pending)
   test("Ancillary records are created for a doi record element") (pending)
-  test("Multiple publishers are created for XML with multiple pub elements") (pending)
+
+  test("Multiple publishers are created for XML with multiple pub elements") {
+    prepareDatabase
+    val dc = prepareXml(twoPublishers)
+    new DepSplitter(dc) split
+
+    for (p <- (dcToXml(dc) \\ "publisher")) {
+      val publisherName = (p \ "publisher_name" text)
+      assert(Publisher.count(By(Publisher.name, publisherName)) > 0)
+    }
+  }
+
   test("Malformed XML syntax doesn't kill the parser process") (pending)
   test("Non-ascii characters are represented correctly") (pending)
 
