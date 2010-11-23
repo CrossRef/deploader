@@ -12,9 +12,9 @@ import org.crossref.deploader._
 
 class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure {
 
-  val testXmlDirectory = "/Users/karl/Proj/deploader/test-data"
+  val testXmlDirectory = "/Users/karl/Proj/deploader/scala/test-data"
 
-  val shortIncompleteXml = "short-incomplete.xml"
+  val shortIncompleteXml = "short-complete.xml"
   val shortCompleteXml = "short-complete.xml"
   val twoPublishers = "two-publishers.xml"
   val nonAscii = "non-ascii.xml"
@@ -24,6 +24,8 @@ class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure 
     val f = new File(testXmlDirectory + "/" + name)
     DepositContext.newTestFor(f)
   }
+
+  def dcToXml(dc : DepositContext) = scala.xml.XML.loadFile(dc.getFile)
 
   def prepareDatabase() = {
     DB.defineConnectionManager(DefaultConnectionIdentifier, TestDBVendor)
@@ -37,8 +39,11 @@ class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure 
   test("Publisher is created for non-existant publisher name") {
     prepareDatabase
     val dc = prepareXml(shortCompleteXml)
-    new DepSplitter(dc) split
+    new DepSplitter(dc).split
+
     // Check that a publisher has been created
+    val publisherName = (dcToXml(dc) \ "publisher" \ "publisher_name" text)
+    Publisher.count(By(Publisher.name, publisherName)) > 0
   }
 
   test("Publisher is updated for existing publisher name") {
@@ -47,6 +52,7 @@ class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure 
     new DepSplitter(dc) split
     val dc2 = prepareXml(shortCompleteXml)
     new DepSplitter(dc2) split
+
     // Check that publisher has details from complete xml
   }
 
@@ -54,7 +60,10 @@ class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure 
     prepareDatabase
     val dc = prepareXml(shortCompleteXml)
     new DepSplitter(dc) split
+
     // Check that doi has been created
+    val doi = (dcToXml(dc) \ "doi_record" \ "doi" text)
+    Doi.count(By(Doi.doi, doi)) > 0
   }
 
   test("Doi is updated for existing doi") {
@@ -63,12 +72,11 @@ class SplitterSpec extends FunSuite with ShouldMatchers with DirectoryStructure 
     new DepSplitter(dc) split
     val dc2 = prepareXml(shortCompleteXml)
     new DepSplitter(dc) split
+
     // Check that doi has details from complete xml
   }
 
-  test("Publication is created for non-existant publication title") {
-    prepareDatabase
-  }
+  test("Publication is created for non-existant publication title") (pending)
 
   test("Publication is updated for existing publication title") (pending)
   test("Ancillary records are created for a doi record element") (pending)

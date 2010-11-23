@@ -1,0 +1,1045 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<crossref_result xmlns="http://www.crossref.org/output/3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation ="http://www.crossref.org/output/3.0 http://www.crossref.org/schema/crossref_output3.0.1.xsd">
+<publication title="International Journal of Agile Management Systems" pubType="journal" pissn="14654652" eissn="00000000" filedate="3-APR-2009" mode="full" >
+<publisher>
+<publisher_name>Emerald</publisher_name>
+<publisher_result_name>Emerald</publisher_result_name>
+<publisher_location>W Yorkshire,  UK</publisher_location>
+<email_address>pevans@emeraldinsight.com</email_address>
+</publisher>
+<doi_record citationid="4895271" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910296544</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>William</given_name>
+<surname>Golden</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Philip</given_name>
+<surname>Powell</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>3</issue>
+<first_page>169</first_page>
+<last_page>176</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Exploring inter-organisational systems and flexibility in Ireland: a case of two value chains</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910296544</url>
+</doi_record>
+<doi_record citationid="26931353" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010356158</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Katsuhiko</given_name>
+<surname>Takahashi</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Nobuto</given_name>
+<surname>Nakamura</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>3</issue>
+<first_page>242</first_page>
+<last_page>252</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Agile control in JIT ordering systems</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010356158</url>
+</doi_record>
+<doi_record citationid="26931443" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010356121</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>V.</given_name>
+<surname>Borja</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>J.A.</given_name>
+<surname>Harding</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>K.T.K.</given_name>
+<surname>Toh</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>3</issue>
+<first_page>214</first_page>
+<last_page>225</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Product re-engineering process using an enterprise modelling architecture</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010356121</url>
+</doi_record>
+<doi_record citationid="26931480" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010337168</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Marcel F. van</given_name>
+<surname>Assen</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>2</issue>
+<first_page>142</first_page>
+<last_page>155</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Agile-based competence management: the relation between agile manufacturing and time-based competence management</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010337168</url>
+</doi_record>
+<doi_record citationid="4895258" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010312589</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Fiorenzo</given_name>
+<surname>Franceschini</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Carlo</given_name>
+<surname>Rafele</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>1</issue>
+<first_page>49</first_page>
+<last_page>54</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Quality evaluation in logistic services</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010312589</url>
+</doi_record>
+<doi_record citationid="4895260" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010312615</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Janusz</given_name>
+<surname>Bucki</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Yvon</given_name>
+<surname>Pesqueux</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>1</issue>
+<first_page>62</first_page>
+<last_page>70</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Flexible workshop: about the concept of flexibility</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010312615</url>
+</doi_record>
+<doi_record citationid="4893641" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010337104</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Kulwant S.</given_name>
+<surname>Pawar</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Sudi</given_name>
+<surname>Sharifi</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>2</issue>
+<first_page>104</first_page>
+<last_page>113</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Virtual collocation of design teams: coordinating for speed</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010337104</url>
+</doi_record>
+<doi_record citationid="4895248" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010337140</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Jiangping</given_name>
+<surname>Wang</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Venkat</given_name>
+<surname>Allada</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>2</issue>
+<first_page>130</first_page>
+<last_page>141</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Hierarchical fuzzy neural network-based serviceability evaluation</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010337140</url>
+</doi_record>
+<doi_record citationid="4895262" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010312633</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Bing</given_name>
+<surname>Yu</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Jennifer Anne</given_name>
+<surname>Harding</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Keith</given_name>
+<surname>Popplewell</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>1</issue>
+<first_page>71</first_page>
+<last_page>83</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Supporting enterprise design through multiple views</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010312633</url>
+</doi_record>
+<doi_record citationid="4890838" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010356086</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Colin</given_name>
+<surname>Rigby</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Marc</given_name>
+<surname>Day</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Paul</given_name>
+<surname>Forrester</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>John</given_name>
+<surname>Burnett</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>3</issue>
+<first_page>178</first_page>
+<last_page>186</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Agile supply: rethinking systems thinking, systems practice</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010356086</url>
+</doi_record>
+<doi_record citationid="4895240" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010356112</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Rakesh</given_name>
+<surname>Narain</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>R.C.</given_name>
+<surname>Yadav</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Joseph</given_name>
+<surname>Sarkis</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>James J.</given_name>
+<surname>Cordeiro</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>3</issue>
+<first_page>202</first_page>
+<last_page>213</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>The strategic implications of flexibility in manufacturing systems</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010356112</url>
+</doi_record>
+<doi_record citationid="4890840" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010356130</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Marla E.</given_name>
+<surname>Hacker</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Jonathan D.</given_name>
+<surname>Lang</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>3</issue>
+<first_page>225</first_page>
+<last_page>232</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Designing a performance measurement system for a high technology virtual engineering team – a case study</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010356130</url>
+</doi_record>
+<doi_record citationid="4895242" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010356149</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>J.</given_name>
+<surname>Ballantine</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>M.</given_name>
+<surname>Levy</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>A.</given_name>
+<surname>Martin</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>I.</given_name>
+<surname>Munro</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>P.</given_name>
+<surname>Powell</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>3</issue>
+<first_page>233</first_page>
+<last_page>241</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>An ethical perspective on information systems evaluation</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010356149</url>
+</doi_record>
+<doi_record citationid="4893647" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266664</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Michael</given_name>
+<surname>Robertson</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Carole</given_name>
+<surname>Jones</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>14</first_page>
+<last_page>17</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Application of lean production and agile manufacturing concepts in a telecommunications environment</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266664</url>
+</doi_record>
+<doi_record citationid="4895289" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266673</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Mark</given_name>
+<surname>Phillips</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>17</first_page>
+<last_page>22</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Agile manufacturing in the aerospace industry: an industrial viewpoint</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266673</url>
+</doi_record>
+<doi_record citationid="4890847" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266682</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>A. Subash</given_name>
+<surname>Babu</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>23</first_page>
+<last_page>29</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Strategies for enhancing agility of make-to-order manufacturing systems</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266682</url>
+</doi_record>
+<doi_record citationid="4895276" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910280893</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>C.J.</given_name>
+<surname>Backhouse</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>N.D.</given_name>
+<surname>Burns</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>2</issue>
+<first_page>76</first_page>
+<last_page>82</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Agile value chains for manufacturing – implications for performance measures</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910280893</url>
+</doi_record>
+<doi_record citationid="4895278" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910280901</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>W.B.</given_name>
+<surname>Lee</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>H.C.W.</given_name>
+<surname>Lau</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>2</issue>
+<first_page>83</first_page>
+<last_page>87</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Factory on demand: the shaping of an agile production network</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910280901</url>
+</doi_record>
+<doi_record citationid="4895280" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910280910</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>J.A.</given_name>
+<surname>Harding</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>A.R.</given_name>
+<surname>Omar</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>K.</given_name>
+<surname>Popplewell</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>2</issue>
+<first_page>88</first_page>
+<last_page>98</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Applications of QFD within a concurrent engineering environment</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910280910</url>
+</doi_record>
+<doi_record citationid="4895269" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910296535</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Robert W.</given_name>
+<surname>Brennan</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Behzad</given_name>
+<surname>Foroughi</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>3</issue>
+<first_page>159</first_page>
+<last_page>168</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>A control framework to support responsive manufacturing</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910296535</url>
+</doi_record>
+<doi_record citationid="4895273" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910296571</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Umit S.</given_name>
+<surname>Bititci</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Trevor J.</given_name>
+<surname>Turner</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Peter D.</given_name>
+<surname>Ball</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>3</issue>
+<first_page>190</first_page>
+<last_page>199</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>The viable business structure for managing agility</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910296571</url>
+</doi_record>
+<doi_record citationid="4895284" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910280938</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Yaw A.</given_name>
+<surname>Owusu</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>2</issue>
+<first_page>107</first_page>
+<last_page>115</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Importance of employee involvement in world-class agile management systems</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910280938</url>
+</doi_record>
+<doi_record citationid="11449008" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266745</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Amrik S.</given_name>
+<surname>Sohal</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>60</first_page>
+<last_page>63</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Developing agile manufacturing in Australia</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266745</url>
+</doi_record>
+<doi_record citationid="4895297" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266727</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Allan</given_name>
+<surname>Carrie</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>45</first_page>
+<last_page>50</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Integrated clusters – the future basis of competition</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266727</url>
+</doi_record>
+<doi_record citationid="4895236" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010356095</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Layek</given_name>
+<surname>Abdel-Malek</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Sanchoy K.</given_name>
+<surname>Das</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Carl</given_name>
+<surname>Wolf</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>3</issue>
+<first_page>187</first_page>
+<last_page>195</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Design and implementation of flexible manufacturing solutions in agile enterprises</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010356095</url>
+</doi_record>
+<doi_record citationid="4895286" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266655</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Ronald E.</given_name>
+<surname>McGaughey</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>7</first_page>
+<last_page>13</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Internet technology: contributing to agility in the twenty-first century</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266655</url>
+</doi_record>
+<doi_record citationid="4895291" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266691</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Jim</given_name>
+<surname>Browne</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Jiangang</given_name>
+<surname>Zhang</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>30</first_page>
+<last_page>36</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Extended and virtual enterprises – similarities and differences</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266691</url>
+</doi_record>
+<doi_record citationid="4895295" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266718</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>JrJung</given_name>
+<surname>Lyu</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>41</first_page>
+<last_page>47</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>CALS: an enabling strategy for agile management systems</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266718</url>
+</doi_record>
+<doi_record citationid="4895238" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010356103</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Remko I. van</given_name>
+<surname>Hoek</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>3</issue>
+<first_page>196</first_page>
+<last_page>201</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>The thesis of leagility revisited</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010356103</url>
+</doi_record>
+<doi_record citationid="4895244" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010312624</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Jürgen</given_name>
+<surname>Hauschildt</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Gerhard</given_name>
+<surname>Schewe</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>2</issue>
+<first_page>96</first_page>
+<last_page>103</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Gatekeeper and process promotor: key persons in agile and innovative organizations</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010312624</url>
+</doi_record>
+<doi_record citationid="4895246" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010337122</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Richard J.</given_name>
+<surname>Tersine</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>John G.</given_name>
+<surname>Wacker</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>2</issue>
+<first_page>114</first_page>
+<last_page>120</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Customer-aligned inventory strategies: agility maxims</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010337122</url>
+</doi_record>
+<doi_record citationid="4895250" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010337195</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Sonja</given_name>
+<surname>Petrovic-Lazarevic</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Amy</given_name>
+<surname>Wong</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>2</issue>
+<first_page>156</first_page>
+<last_page>163</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Fuzzy control model in the hospitality industry</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010337195</url>
+</doi_record>
+<doi_record citationid="4895252" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010312543</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Reggie</given_name>
+<surname>Davidrajuh</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Ziqiong</given_name>
+<surname>Deng</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>1</issue>
+<first_page>7</first_page>
+<last_page>15</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>An autonomous data collection system for virtual manufacturing systems</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010312543</url>
+</doi_record>
+<doi_record citationid="4890843" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010337131</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Nijaz</given_name>
+<surname>Bajgoric</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>2</issue>
+<first_page>121</first_page>
+<last_page>129</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Web-based information access for agile management</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010337131</url>
+</doi_record>
+<doi_record citationid="4890849" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266736</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Chin-Yin</given_name>
+<surname>Huang</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Shimon Y.</given_name>
+<surname>Nof</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>51</first_page>
+<last_page>60</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Enterprise agility: a view from the PRISM lab</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266736</url>
+</doi_record>
+<doi_record citationid="4895254" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010312561</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>M.F. van</given_name>
+<surname>Assen</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>E.W.</given_name>
+<surname>Hans</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>S.L. van de</given_name>
+<surname>Velde</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>1</issue>
+<first_page>16</first_page>
+<last_page>23</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>An agile planning and control framework for customer-order driven discrete parts manufacturing environments</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010312561</url>
+</doi_record>
+<doi_record citationid="4895256" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010312570</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Sock Hwa</given_name>
+<surname>Chung</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Charles A.</given_name>
+<surname>Snyder</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>1</issue>
+<first_page>24</first_page>
+<last_page>32</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>ERP adoption: a technological evolution approach</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010312570</url>
+</doi_record>
+<doi_record citationid="4895264" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910296508</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Avraham</given_name>
+<surname>Sless</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Yohanan</given_name>
+<surname>Arzi</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Daniel</given_name>
+<surname>Sipper</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>3</issue>
+<first_page>138</first_page>
+<last_page>150</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Object based information modeling of CIM systems</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910296508</url>
+</doi_record>
+<doi_record citationid="4895267" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910296517</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>J.</given_name>
+<surname>Zhao</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>W.M.</given_name>
+<surname>Cheung</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>R.I.M.</given_name>
+<surname>Young</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>3</issue>
+<first_page>150</first_page>
+<last_page>158</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>A consistent manufacturing data model to support virtual enterprises</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910296517</url>
+</doi_record>
+<doi_record citationid="4895293" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910266709</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>F.B.</given_name>
+<surname>Vernadat</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>1</issue>
+<first_page>37</first_page>
+<last_page>40</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Research agenda for agile manufacturing</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910266709</url>
+</doi_record>
+<doi_record citationid="4893643" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654650010312606</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Rachel</given_name>
+<surname>Mason-Jones</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Ben</given_name>
+<surname>Naylor</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Denis R.</given_name>
+<surname>Towill</surname>
+</person_name>
+</contributors>
+<volume>2</volume>
+<issue>1</issue>
+<first_page>54</first_page>
+<last_page>61</last_page>
+<publication_date>
+<year>2000</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Engineering the leagile supply chain</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654650010312606</url>
+</doi_record>
+<doi_record citationid="4893645" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910296562</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Wen-Chieh</given_name>
+<surname>Chuang</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>Peter</given_name>
+<surname>O’Grady</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>3</issue>
+<first_page>177</first_page>
+<last_page>189</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Assembly process visualization in feature-based design for assembly</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910296562</url>
+</doi_record>
+<doi_record citationid="4895282" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910280929</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>Sue</given_name>
+<surname>Abdinnour-Helm</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>2</issue>
+<first_page>99</first_page>
+<last_page>106</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Network design in supply chain management</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910280929</url>
+</doi_record>
+<doi_record citationid="4890845" datestamp="2007-08-08" owner="10.1108">
+<doi>10.1108/14654659910280947</doi>
+<contributors>
+<person_name sequence="first" contributor_role="author">
+<given_name>J.G.</given_name>
+<surname>Thoburn</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>S.</given_name>
+<surname>Arunachalam</surname>
+</person_name>
+<person_name sequence="additional" contributor_role="author">
+<given_name>A.</given_name>
+<surname>Gunasekaran</surname>
+</person_name>
+</contributors>
+<volume>1</volume>
+<issue>2</issue>
+<first_page>116</first_page>
+<last_page>126</last_page>
+<publication_date>
+<year>1999</year>
+</publication_date>
+<publication_type>full_text</publication_type>
+<article_title>Difficulties arising from dysfunctional information systems in manufacturing SMEs – case studies</article_title>
+<url type="xref:url:prime">http://www.emeraldinsight.com/10.1108/14654659910280947</url>
+</doi_record>
+<citation_count>164</citation_count>
+</publication>
+</crossref_result>
